@@ -9,5 +9,4 @@
                  ; [slingshot "0.10.3"]
                  [org.clojure/core.match "0.2.1"]
                  [org.clojure/algo.generic "0.1.2"]
-                 [org.clojure/core.cache "0.6.3"]]
-  :main io.prismic.api)
+                 [org.clojure/core.cache "0.6.3"]])
