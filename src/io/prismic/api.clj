@@ -12,9 +12,9 @@
 (defn get-refs [api] (gf/fmap #(first %) (clojure.walk/keywordize-keys (group-by :label (:refs api)))))
 (defn get-ref [api name] (name (get-refs api)))
 
-(defn vects-to-map [vects] (apply merge (map #(hash-map (keyword (first %1)) (second %1)) vects)))
+(defn- vects-to-map [vects] (apply merge (map #(hash-map (keyword (first %1)) (second %1)) vects)))
 
-(defn search [api form-name query]
+(defn- search-no-cache [api form-name query]
   (let [form (get-form api form-name)
         defaults (vects-to-map (filter (comp not nil? val) (gf/fmap #(:default %) (:fields form))))
         params (merge {:ref (:ref (get-ref api :Master))} defaults query)
@@ -29,10 +29,16 @@
                               (assoc (dissoc doc :data) :fragments frags2)))]
     (assoc (dissoc response :results) :results (map parse-doc (:results response)))))
 
-(defn get-by-id [api id]
+(def search (memoize search-no-cache))
+
+(defn- get-by-id-no-cache [api id]
   (first (:results (search api :everything {:q (str "[[:d = at(document.id, \"" id "\")]]")}))))
 
-(defn get-by-bookmark [api bookmark] (get-by-id api (get-bookmark api bookmark)))
+(def get-by-id (memoize get-by-id-no-cache))
+
+(defn- get-by-bookmark-no-cache [api bookmark] (get-by-id api (get-bookmark api bookmark)))
+
+(def get-by-bookmark (memoize get-by-bookmark-no-cache))
 
 (defn get-fragments
   ([doc] (:fragments doc))
