@@ -1,11 +1,11 @@
 (ns io.prismic.api
-  (:require [io.prismic.render :as render]
-            [clj-http.client :as http]
+  (:require [clj-http.client :as http]
             [clojure.algo.generic.functor :as gf]))
 
-(defn get-api [url token]
-  (:body (http/get url {:query-params (if (nil? token) {} {:token token})
-                        :accept :json :as :json})))
+(defn get-api
+  ([url] (get-api url nil))
+  ([url token] (:body (http/get url {:query-params (if (nil? token) {} {:token token})
+                                     :accept :json :as :json}))))
 
 (defn get-form [api name] (get-in api [:forms name]))
 (defn get-bookmark [api name] (get-in api [:bookmarks name]))
