@@ -8,7 +8,7 @@
 (defn- parse-date [d] (.parse (java.text.SimpleDateFormat. "yyyy-MM-dd") d))
 (defn- format-date [d pattern] (.format (java.text.SimpleDateFormat. pattern) d))
 (defn- span [class content] (str "<span class=\"" class "\">" content "</span>"))
-(defn- d [x] (prn x) x)
+(defn- ddd [x] (prn x) x)
 
 ; public API
 
@@ -43,5 +43,10 @@
     "Link.web" (web-link f)
     "Link.file" (file-link f)
     "Link.document" (document-link f resolver)
-    "StructuredText" (structured/render f)
+    "StructuredText" (structured/render f resolver)
     ""))
+
+(defn document [doc resolver]
+  (str/join "\n" (for [[k f] (:fragments doc)]
+                   (str "<section data-field=\"" (name k) "\">"
+                        (fragment f resolver) "</section>"))))

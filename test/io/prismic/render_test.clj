@@ -60,4 +60,9 @@
   (testing "render text"
     (let [doc (get-by-id lbc "UkL0gMuvzYUANCpn")
           html (render/text (get-fragment doc :author))]
-      (is= "<span class=\"text\">Tsutomu Kabayashi, Pastry Dresser</span>" html))))
+      (is= "<span class=\"text\">Tsutomu Kabayashi, Pastry Dresser</span>" html)))
+
+  (testing "render document"
+    (let [doc (get-by-id lbc "UkL0gMuvzYUANCpu")
+          expected "<p>Initially started in Paris in 1992, we are now present in <strong>Paris, London, Tokyo and New York</strong>, so you may be lucky with a <em>Les Bonnes Choses</em> shop in your town. We always welcome in our shops the most interested to discover new pastry sensations, and we thrive as we advise you towards your next taste adventures.</p>\n\n<p>If you'd like to challenge us, learn that we like to be challenged! You can place a special order, defining roughly what tastes you like, and how you would like your order to make you feel, and we take it from there!</p>"]
+      (is (not= (.indexOf (render/document doc resolver) expected) -1)))))
