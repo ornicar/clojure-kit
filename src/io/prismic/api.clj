@@ -7,8 +7,8 @@
   ([url token] (:body (http/get url {:query-params (if (nil? token) {} {:token token})
                                      :accept :json :as :json}))))
 
-(defn get-form [api name] (get-in api [:forms name]))
-(defn get-bookmark [api name] (get-in api [:bookmarks name]))
+(defn get-form [api name] (-> api :forms name))
+(defn get-bookmark [api name] (-> api :bookmarks name))
 (defn get-refs [api] (gf/fmap #(first %) (clojure.walk/keywordize-keys (group-by :label (:refs api)))))
 (defn get-ref [api name] (name (get-refs api)))
 
@@ -43,9 +43,8 @@
 (defn get-fragments
   ([doc] (:fragments doc))
   ([doc field] (let [indexed-key #"^([^\[]+)\[\d+\]$"
-                     f (fn [[k v]]
-                         (when-let [[_ n] (re-matches indexed-key (name k))]
-                           (when (= n (name field)) v)))]
+                     f (fn [[k v]] (when-let [[_ n] (re-matches indexed-key (name k))]
+                                     (when (= n (name field)) v)))]
                  (remove nil? (map f (sort (get-fragments doc)))))))
 
 (defn get-fragment [doc field] (or (field (get-fragments doc)) (first (get-fragments doc field))))
