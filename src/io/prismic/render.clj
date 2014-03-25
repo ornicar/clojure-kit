@@ -12,6 +12,8 @@
 
 ; public API
 
+(declare fragment)
+
 (defn text [f] (span "text" (:value f)))
 
 (defn number [f] (span "number" (:value f)))
@@ -33,6 +35,12 @@
 (defn document-link [f resolver]
   (str "<a href=\"" (resolver f) "\">" (-> f :value :document :slug) "</a>"))
 
+(defn group [f resolver]
+  (letfn [(segments [s] (str/join (map segment s)))
+          (segment [[k f]] (str "<section data-field=\"" (name k) "\">"
+                                (fragment f resolver) "</section>\n"))]
+    (str/join "\n" (map segments (:value f)))))
+
 (defn fragment [f resolver]
   (case (:type f)
     "Text" (text f)
@@ -43,6 +51,7 @@
     "Link.web" (web-link f)
     "Link.file" (file-link f)
     "Link.document" (document-link f resolver)
+    "Group" (group f resolver)
     "StructuredText" (structured/render f resolver)
     ""))
 

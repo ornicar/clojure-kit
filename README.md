@@ -4,7 +4,7 @@
 
 ```
 git clone https://github.com/ornicar/clojure-kit
-cd clojure kit
+cd clojure-kit
 lein repl
 
 user=> (require '[io.prismic.api :refer :all])

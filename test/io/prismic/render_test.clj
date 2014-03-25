@@ -6,12 +6,20 @@
 
 (def lbc (get-api "https://lesbonneschoses.prismic.io/api"))
 (def public (get-api "https://test-public.prismic.io/api"))
+(def micro (get-api "https://micro.prismic.io/api"))
 (defn- is= [a b] (is (= a b)))
 (defn- resolver [link]
   (let [document (-> link :value :document)]
     (str "http://localhost/" (:type document) "/" (:id document))))
 
 (deftest render-fragments
+
+  (testing "render group"
+    (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
+          expected (str "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>\n"
+                   "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n\n"
+                   "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>\n")]
+      (is= expected (render/group (get-fragment doc :docs) resolver))))
 
   (testing "render image"
     (let [doc (get-by-bookmark lbc :stores)
