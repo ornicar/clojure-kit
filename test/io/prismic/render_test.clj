@@ -17,8 +17,8 @@
   (testing "render group"
     (let [doc (get-by-id micro "UrDcEAEAAKUbpbND")
           expected (str "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDejAEAAFwMyrW9\">installing-meta-micro</a></section>\n"
-                   "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n\n"
-                   "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>\n")]
+                   "<section data-field=\"desc\"><p>Just testing another field in a group section.</p></section>\n"
+                   "<section data-field=\"linktodoc\"><a href=\"http://localhost/doc/UrDmKgEAALwMyrXA\">using-meta-micro</a></section>")]
       (is= expected (render/group (get-fragment doc :docs) resolver))))
 
   (testing "render image"

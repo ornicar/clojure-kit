@@ -35,11 +35,13 @@
 (defn document-link [f resolver]
   (str "<a href=\"" (resolver f) "\">" (-> f :value :document :slug) "</a>"))
 
-(defn group [f resolver]
-  (letfn [(segments [s] (str/join (map segment s)))
-          (segment [[k f]] (str "<section data-field=\"" (name k) "\">"
-                                (fragment f resolver) "</section>\n"))]
-    (str/join "\n" (map segments (:value f)))))
+(defn fragments [fs resolver]
+  (str/join "\n" (for [[k f] fs]
+                   (str "<section data-field=\"" (name k) "\">" (fragment f resolver) "</section>"))))
+
+(defn document [doc resolver] (fragments (:fragments doc) resolver))
+
+(defn group [f resolver] (str/join "\n" (for [g (:value f)] (fragments g resolver))))
 
 (defn fragment [f resolver]
   (case (:type f)
@@ -54,8 +56,3 @@
     "Group" (group f resolver)
     "StructuredText" (structured/render f resolver)
     ""))
-
-(defn document [doc resolver]
-  (str/join "\n" (for [[k f] (:fragments doc)]
-                   (str "<section data-field=\"" (name k) "\">"
-                        (fragment f resolver) "</section>"))))
