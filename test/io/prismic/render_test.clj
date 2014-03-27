@@ -25,7 +25,13 @@
     (let [doc (get-by-bookmark lbc :stores)
           html (render/image (get-fragment doc :image))
           url "https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg"]
-      (is= (str "<img src=\"" url "\" width=\"1500\" height=\"500\" />") html)))
+      (is= (str "<img alt=\"\" src=\"" url "\" width=\"1500\" height=\"500\" />") html)))
+
+  (testing "render image view"
+    (let [doc (get-by-id public "Uyr9sgEAAGVHNoFZ")
+          html (render/image-view (get-fragment doc :illustration) :icon)
+          url "https://prismic-io.s3.amazonaws.com/test-public/9f5f4e8a5d95c7259108e9cfdde953b5e60dcbb6.jpg"]
+      (is= (str "<img alt=\"some alt text\" src=\"" url "\" width=\"100\" height=\"100\" />") html)))
 
   (testing "render document link"
     (let [doc (get-by-id lbc "UkL0gMuvzYUANCpi")

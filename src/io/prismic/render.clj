@@ -24,9 +24,13 @@
   ([f pattern] (span "date" (format-date (parse-date (:value f)) pattern)))
   ([f] (date f "yyyy/MM/dd")))
 
-(defn image [f]
-  (let [main (-> f :value :main) size (:dimensions main)]
-    (str "<img src=\"" (:url main) "\" width=\"" (:width size) "\" height=\"" (:height size) "\" />")))
+(defn- img [i]
+  (str "<img alt=\"" (:alt i) "\" src=\"" (:url i) "\" "
+       "width=\"" (-> i :dimensions :width) "\" height=\"" (-> i :dimensions :height) "\" />"))
+
+(defn image [f] (img (-> f :value :main)))
+
+(defn image-view [f view] (img (-> f :value :views view)))
 
 (defn web-link [f] (str "<a href=\"" (-> f :value :url) "\">" (-> f :value :url) "</a>"))
 
