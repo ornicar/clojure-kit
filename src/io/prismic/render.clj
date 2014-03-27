@@ -41,6 +41,13 @@
 
 (defn document [doc resolver] (fragments (:fragments doc) resolver))
 
+(defn embed [f]
+  (let [url (-> f :value :oembed :embed_url)
+        type (str/lower-case (-> f :value :oembed :type))
+        provider (str/lower-case (-> f :value :oembed :provider_name))
+        html (-> f :value :oembed :html)]
+    (str "<div data-oembed=\"" url "\" data-oembed-type=\"" type "\" data-oembed-provider=\"" provider "\">" html "</div>")))
+
 (defn group [f resolver] (str/join "\n" (for [g (:value f)] (fragments g resolver))))
 
 (defn fragment [f resolver]
@@ -51,6 +58,7 @@
     "Color" (color f)
     "Date" (date f)
     "Image" (image f)
+    "Embed" (embed f)
     "Link.web" (web-link f)
     "Link.file" (file-link f)
     "Link.document" (document-link f resolver)

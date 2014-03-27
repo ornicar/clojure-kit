@@ -79,3 +79,8 @@
     (let [doc (get-by-id lbc "UkL0gMuvzYUANCps")
           html (render/text (get-fragment doc :allow_comments))]
       (is= "<span class=\"text\">No</span>" html)))
+
+  (testing "render embed"
+    (let [doc (get-by-bookmark public :links)
+          html (render/embed (get-fragment doc :embed))]
+      (is= "<div data-oembed=\"https://gist.github.com/srenault/71b4f1e62783c158f8af\" data-oembed-type=\"rich\" data-oembed-provider=\"github\"><script src=\"https://gist.github.com/srenault/71b4f1e62783c158f8af.js\"></script></div>" html)))
