@@ -21,3 +21,9 @@ user=> (require '[io.prismic.render :as render])
 user=> (render/image (get-fragment stores :image))
 "<img src=\"https://prismic-io.s3.amazonaws.com/lesbonneschoses/946cdd210d5f341df7f4d8c7ec3d48adbf7a9d65.jpg\" width=\"1500\" height=\"500\" />"
 ```
+
+### Continuously run tests while developing
+
+```
+lein test-refresh
+```
