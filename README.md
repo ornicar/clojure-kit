@@ -1,5 +1,13 @@
 ## Clojure development kit for prismic.io
 
+## Installation
+
+`prismic` is available as a Maven artifact from [Clojars](http://clojars.org/prismic):
+
+```clojure
+[prismic "1.0-M1"]
+```
+
 ### Try it from REPL
 
 ```
