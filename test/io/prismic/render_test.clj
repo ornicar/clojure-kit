@@ -62,7 +62,7 @@
 
   (testing "render date with custom pattern"
     (let [doc (get-by-id lbc "UkL0gMuvzYUANCpn")
-          html (render/date (get-fragment doc :date) "dd.MM.yyy")]
+          html (render/date (get-fragment doc :date) "dd.MM.yyyy")]
       (is= "<span class=\"date\">17.08.2013</span>" html)))
 
   (testing "render text"
