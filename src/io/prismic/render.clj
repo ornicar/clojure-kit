@@ -46,6 +46,7 @@
 (defn fragment [f resolver]
   (case (:type f)
     "Text" (text f)
+    "Select" (text f)
     "Number" (number f)
     "Color" (color f)
     "Date" (date f)

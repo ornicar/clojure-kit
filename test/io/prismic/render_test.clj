@@ -74,3 +74,8 @@
     (let [doc (get-by-id lbc "UkL0gMuvzYUANCpu")
           expected "<p>Initially started in Paris in 1992, we are now present in <strong>Paris, London, Tokyo and New York</strong>, so you may be lucky with a <em>Les Bonnes Choses</em> shop in your town. We always welcome in our shops the most interested to discover new pastry sensations, and we thrive as we advise you towards your next taste adventures.</p>\n\n<p>If you'd like to challenge us, learn that we like to be challenged! You can place a special order, defining roughly what tastes you like, and how you would like your order to make you feel, and we take it from there!</p>"]
       (is (not= (.indexOf (render/document doc resolver) expected) -1)))))
+
+  (testing "render select"
+    (let [doc (get-by-id lbc "UkL0gMuvzYUANCps")
+          html (render/text (get-fragment doc :allow_comments))]
+      (is= "<span class=\"text\">No</span>" html)))
