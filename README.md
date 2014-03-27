@@ -5,7 +5,7 @@
 `prismic` is available as a Maven artifact from [Clojars](http://clojars.org/prismic):
 
 ```clojure
-[prismic "1.0-M1"]
+[prismic "1.0-M2"]
 ```
 
 ### Try it from REPL

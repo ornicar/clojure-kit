@@ -1,4 +1,4 @@
-(defproject prismic "1.0-M1"
+(defproject prismic "1.0-M2"
   :description "Clojure kit for prismic.io API"
   :url "http://prismic.io"
   :license {:name "MIT"
