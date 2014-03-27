@@ -42,10 +42,11 @@
 (defn document [doc resolver] (fragments (:fragments doc) resolver))
 
 (defn embed [f]
-  (let [url (-> f :value :oembed :embed_url)
-        type (str/lower-case (-> f :value :oembed :type))
-        provider (str/lower-case (-> f :value :oembed :provider_name))
-        html (-> f :value :oembed :html)]
+  (let [oembed (-> f :value :oembed)
+        url (:embed_url oembed)
+        type (str/lower-case (:type oembed))
+        provider (str/lower-case (:provider_name oembed))
+        html (:html oembed)]
     (str "<div data-oembed=\"" url "\" data-oembed-type=\"" type "\" data-oembed-provider=\"" provider "\">" html "</div>")))
 
 (defn group [f resolver] (str/join "\n" (for [g (:value f)] (fragments g resolver))))
