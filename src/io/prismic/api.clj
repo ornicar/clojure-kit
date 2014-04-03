@@ -4,7 +4,7 @@
 
 (defn get-api
   ([url] (get-api url nil))
-  ([url token] (:body (http/get url {:query-params (if (nil? token) {} {:token token})
+  ([url token] (:body (http/get url {:query-params (if (nil? token) {} {:access_token token})
                                      :accept :json :as :json}))))
 
 (defn get-form [api name] (-> api :forms name))
