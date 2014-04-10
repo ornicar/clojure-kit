@@ -46,8 +46,18 @@
           response (search lbc :everything query)]
       (is= (-> (:results response) first :id) "UkL0gMuvzYUANCpf")))
 
+  (testing "fulltext search in a future release"
+    (let [query {:q (str "[[:d = fulltext(my.article.title, \"release\")]]")}
+          response (search test "U0VaPwEAADcA2kNS" :everything query)]
+      (is= (-> (:results response) first :id) "U0VaMQEAADYA2kMz")))
+
   (testing "find by id"
     (let [id "UkL0gMuvzYUANCpf" doc (get-by-id lbc id)]
+      (is= (:id doc) id)))
+
+  (testing "find by id a document in a future release"
+    (let [id "U0VaMQEAADYA2kMz"
+          doc (get-by-id test "U0VaPwEAADcA2kNS" id)]
       (is= (:id doc) id)))
 
   (testing "find by bookmark"
@@ -55,6 +65,10 @@
           text (-> (get-fragment doc :title) :value first :text)]
       (is= text "Don't be a stranger!"))))
 
+  (testing "find by bookmark in a future released"
+    (let [doc (get-by-bookmark test "U0VaPwEAADcA2kNS" :home)
+          text (-> (get-fragment doc :title) :value first :text)]
+      (is= text "Released in the future")))
 
 (deftest select-fragments
   (let [link-slug (fn [link] (-> link :value :document :slug))

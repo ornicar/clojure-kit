@@ -43,20 +43,20 @@
 (defn- search-no-cache
   ([api form-name query](search-no-cache api nil form-name query))
   ([api ref form-name query]
-  (let [form (get-form api form-name)
-        r (if (nil? ref) (:ref (get-ref api :Master)) ref)
-        defaults (vects-to-map (filter (comp not nil? val) (gf/fmap #(:default %) (:fields form))))
-        params (merge {:ref r} defaults query)
-        response (:body (http/get (:action form) {:query-params params :accept :json :as :json}))
-        add-fragments (fn [fragments [k v]]
-                        (if (vector? v)
-                          (let [make-array (fn [id a] [(keyword (str (name k) "[" id "]")) a])]
-                            (merge fragments (vects-to-map (map-indexed make-array v))))
-                          (assoc fragments k v)))
-        parse-doc (fn [doc] (let [frags1 (get-in doc [:data (keyword (:type doc))])
-                                  frags2 (reduce add-fragments {} frags1)]
-                              (assoc (dissoc doc :data) :fragments frags2)))]
-    (assoc (dissoc response :results) :results (map parse-doc (:results response))))))
+     (let [form (get-form api form-name)
+           r (if (nil? ref) (:ref (get-ref api :Master)) ref)
+           defaults (vects-to-map (filter (comp not nil? val) (gf/fmap #(:default %) (:fields form))))
+           params (merge {:ref r} defaults query)
+           response (:body (http/get (:action form) {:query-params params :accept :json :as :json}))
+           add-fragments (fn [fragments [k v]]
+                           (if (vector? v)
+                             (let [make-array (fn [id a] [(keyword (str (name k) "[" id "]")) a])]
+                               (merge fragments (vects-to-map (map-indexed make-array v))))
+                             (assoc fragments k v)))
+           parse-doc (fn [doc] (let [frags1 (get-in doc [:data (keyword (:type doc))])
+                                     frags2 (reduce add-fragments {} frags1)]
+                                 (assoc (dissoc doc :data) :fragments frags2)))]
+       (assoc (dissoc response :results) :results (map parse-doc (:results response))))))
 
 (def search (memoize search-no-cache))
 
