@@ -5,13 +5,13 @@
    [clojure.data.json :as json]
    [clojure.algo.generic.functor :as gf]))
 
-(defn- authorization-needed[oauth-url]
+(defn- authorization-needed [oauth-url]
   (ex-info "You need to provide an access token to access this repository" {:type "AuthorizationNeeded" :oauth-url oauth-url}))
 
-(defn- invalid-token[oauth-url]
+(defn- invalid-token [oauth-url]
   (ex-info "The provided access token is either invalid or expired" {:type "InvalidToken" :oauth-url oauth-url}))
 
-(defn- unexpected-error[msg]
+(defn- unexpected-error [msg]
   (ex-info msg {:type "UnexpectedError"}))
 
 (defn get-api
