@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [clj-http "0.9.1"]
                  [cheshire "5.3.1"]
+                 [org.clojure/data.json "0.2.1"]
                  [org.clojure/core.match "0.2.1"]
                  [org.clojure/algo.generic "0.1.2"]
                  [org.clojure/core.cache "0.6.3"]])
