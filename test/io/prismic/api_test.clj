@@ -34,7 +34,7 @@
     (is= (get-bookmark lbc :jobs) "UkL0gMuvzYUANCpl"))
 
   (testing "get ref"
-    (is= (get-ref lbc :Master) {:label "Master" :isMasterRef true :ref "UkL0hcuvzYUANCrm"})))
+    (is= (get-ref lbc :Master) {:id "master" :label "Master" :isMasterRef true :ref "UkL0hcuvzYUANCrm"})))
 
 (deftest search-documents
 
