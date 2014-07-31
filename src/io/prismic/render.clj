@@ -36,6 +36,11 @@
 
 (defn file-link [f] (str "<a href=\"" (-> f :value :file :url) "\">" (-> f :value :file :name) "</a>"))
 
+(defn geopoint [f] (str "<div class=\"geopoint\">"
+                        "<span class=\"longitude\">" (-> f :value :longitude) "</span>"
+                        "<span class=\"latitude\">" (-> f :value :latitude) "</span>"
+                        "</div>"))
+
 (defn document-link [f resolver]
   (str "<a href=\"" (resolver f) "\">" (-> f :value :document :slug) "</a>"))
 
