@@ -2,12 +2,19 @@
   (:require [clojure.string :as str])
   (:use [clojure.core.match :only (match)]))
 
-(defn- ddd [x] (prn x) x)
 (defn- in-tag [t content] (str "<" t ">" content "</" t ">"))
 
+(defn- escape-html
+  "Change special characters into HTML character entities."
+  [text]
+  (.. ^String (as-str text)
+      (replace "&"  "&amp;")
+      (replace "<"  "&lt;")
+      (replace ">"  "&gt;")
+      (replace "\"" "&quot;")))
+
 (defn text [text spans resolver]
-  (letfn [(escape [text] (str/replace (str/replace text "<" "&lt;") "\n" "<br>"))
-          (write-link [f]
+  (letfn [(write-link [f]
             (case (:type f)
               "Link.document" (str "<a href=\"" (resolver f) "\">")
               "Link.file" (str "<a href=\"" (-> f :value :file :url) "\">")
@@ -32,11 +39,11 @@
                (if (= next-op pos)
                  (let [[endings-to-apply other-endings] (split-with #(= (:end %) pos) endings)
                        [startings-to-apply other-startings] (split-with #(= (:start %) pos) startings)
-                       new-html (str (write-html endings-to-apply startings-to-apply) (escape current))
+                       new-html (str (write-html endings-to-apply startings-to-apply) (escape-html current))
                        new-endings (concat (reverse startings-to-apply) other-endings)]
                    (recur tail other-startings new-endings (conj html new-html)))
                  (let [[done todo] (split-with #(not (= (first %) next-op)) in)
-                       new-html (escape (str/join (map second done)))]
+                       new-html (escape-html (str/join (map second done)))]
                    (recur (vec todo) startings endings (conj html new-html))))
                :else (str/join (conj html (write-html endings []))))))))
 
