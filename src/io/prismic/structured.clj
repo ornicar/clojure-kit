@@ -1,17 +1,9 @@
 (ns io.prismic.structured
   (:require [clojure.string :as str])
-  (:use [clojure.core.match :only (match)]))
+  (:use [io.prismic.utils :refer [escape-html]]
+        [clojure.core.match :only (match)]))
 
 (defn- in-tag [t content] (str "<" t ">" content "</" t ">"))
-
-(defn- escape-html
-  "Change special characters into HTML character entities."
-  [text]
-  (.. ^String (as-str text)
-      (replace "&"  "&amp;")
-      (replace "<"  "&lt;")
-      (replace ">"  "&gt;")
-      (replace "\"" "&quot;")))
 
 (defn text [text spans resolver]
   (letfn [(write-link [f]

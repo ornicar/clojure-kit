@@ -1,0 +1,12 @@
+{
+  "type": "StructuredText",
+  "value": [{
+    "type": "heading1",
+    "text": "Salted Caramel Macaron",
+    "spans": [{
+      "start": 162,
+      "end": 183,
+      "type": "strong"
+    }]
+  }]
+}

@@ -1,5 +1,6 @@
 (ns io.prismic.render
   (:require [clojure.string :as str]
+            [io.prismic.utils :refer [escape-html]]
             [io.prismic.structured :as structured])
   (:use [clojure.core.match :only (match)]))
 
@@ -8,13 +9,14 @@
 (defn- parse-date [d] (.parse (java.text.SimpleDateFormat. "yyyy-MM-dd") d))
 (defn- format-date [d pattern] (.format (java.text.SimpleDateFormat. pattern) d))
 (defn- span [class content] (str "<span class=\"" class "\">" content "</span>"))
-(defn- ddd [x] (prn x) x)
 
 ; public API
 
 (declare fragment)
 
-(defn text [f] (span "text" (:value f)))
+(defn text [f] (span "text" (escape-html (:value f))))
+
+(def select text)
 
 (defn number [f] (span "number" (:value f)))
 
@@ -48,7 +50,7 @@
   (str/join "\n" (for [[k f] fs]
                    (str "<section data-field=\"" (name k) "\">" (fragment f resolver) "</section>"))))
 
-(defn document [doc resolver] (fragments (:fragments doc) resolver))
+(defn document [doc resolver] (fragments (:data doc) resolver))
 
 (defn embed [f]
   (let [oembed (-> f :value :oembed)
